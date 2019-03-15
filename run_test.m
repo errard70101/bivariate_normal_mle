@@ -35,6 +35,9 @@ dta.Properties.VariableNames = {'id', 'female', 'year', 'age', 'hsat', ...
     'bluec', 'whitec', 'self', 'beamt', 'docvis', 'hospvis', 'public', ...
     'addon'};
 
+writetable(dta, "./J Applied Econometrics/rwm.csv")
+
+
 % Generate dependent variables
 dta.hospital = dta.hospvis > 0;
 dta.doctor = dta.docvis > 0;
