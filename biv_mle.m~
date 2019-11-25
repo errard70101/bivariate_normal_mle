@@ -13,7 +13,7 @@ function [ff, g, H] = biv_mle(starting_value, y2, y3, z2, z3)
 % starting_value: a vector contains the starting values of parameters to be
 %         estimated.
 % To note that, the size of z2 and z3 should be identical.
-% The formula here bases on Greene's Econometric Analysis 7ed, p739 - p741.
+% The formula here bases on Greene's Econometric  p739 - p741
 
 starting_value = starting_value(:);
 n_params = size(z2, 2);
@@ -38,12 +38,8 @@ ff = -sum(log(F), 1);
 
 
 if nargout > 1
-    delta = (1/sqrt(1-rho.^2))';
-    v2 = delta.*(w3 - rho.*w2);
-    v3 = delta.*(w2 - rho.*w3);
-    
-    g2 = normpdf(w2).*normcdf(v2);
-    g3 = normpdf(w3).*normcdf(v3);
+    g2 = normpdf(w2).*normcdf((w3-rho.*w2)./sqrt(1-rho.^2));
+    g3 = normpdf(w3).*normcdf((w2-rho.*w3)./sqrt(1-rho.^2));
     d_delta2 = sum((q2.*g2./F).*z2);
     %disp(size(d_delta2))
     d_delta3 = sum((q3.*g3./F).*z3);
@@ -55,6 +51,9 @@ if nargout > 1
 end
     
 if nargout > 2
+    delta = (1/sqrt(1-rho.^2))';
+    v2 = delta.*(w3 - rho.*w2);
+    v3 = delta.*(w2 - rho.*w3);
     wRw = (delta.^2).*(w2.^2 + w3.^2 - 2.*rho.*w2.*w3);
     
     dd_delta2 = z2'*(z2.*(-w2.*g2./F - rho.*f./F - (g2.^2)./(F.^2)));
