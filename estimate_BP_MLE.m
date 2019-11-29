@@ -1,4 +1,4 @@
-function [delta, biv_se, exit_flag] = ...
+function [delta, biv_se, robust_biv_se, exit_flag] = ...
     estimate_BP_MLE(starting_value, y1, y2, z1, z2, options)
 
 if nargin == 5
@@ -13,7 +13,7 @@ end
 tic
 lb = [-inf(length(starting_value)-1, 1); -ones(1, 1)*1];
 ub = [inf(length(starting_value)-1, 1); ones(1, 1)*1];
-[delta, ~, exit_flag, ~, lambda, gg, H] = ...
+[delta, ~, exit_flag, ~, lambda, ~, H] = ...
    fmincon(@biv_mle, starting_value, [], [], [], [], lb, ub, [], ...
    options, y1, y2, z1, z2);
 disp('The estimation takes')
@@ -25,5 +25,6 @@ catch
     biv_cov = inv(H);
 end
 biv_se = sqrt(diag(biv_cov));
+robust_biv_se = cal_robust_biv_se(starting_value, y2, y3, z2, z3, biv_cov);
 
 end
