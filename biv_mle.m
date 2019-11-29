@@ -38,7 +38,7 @@ ff = -sum(log(F), 1);
 
 
 if nargout > 1
-    delta = (1/sqrt(1-rho.^2))';
+    delta = (1./sqrt(1-rho.^2));
     v2 = delta.*(w3 - rho.*w2);
     v3 = delta.*(w2 - rho.*w3);
     
@@ -57,9 +57,9 @@ end
 if nargout > 2
     wRw = (delta.^2).*(w2.^2 + w3.^2 - 2.*rho.*w2.*w3);
     
-    dd_delta2 = z2'*(z2.*(-w2.*g2./F - rho.*f./F - (g2.^2)./(F.^2)));
+    dd_delta2 = -z2'*(z2.*(w2.*g2./F + rho.*f./F + (g2.^2)./(F.^2)));
     %disp(size(dd_delta2))
-    dd_delta3 = z3'*(z3.*(-w3.*g3./F - rho.*f./F - (g3.^2)./(F.^2)));
+    dd_delta3 = -z3'*(z3.*(w3.*g3./F + rho.*f./F + (g3.^2)./(F.^2)));
     %disp(size(dd_delta3))
     dd_delta2_delta3 = (q2.*q3.*z2)'*(z3.*(f./F - g2.*g3./(F.^2)));
     %disp(size(dd_delta2_delta3))
@@ -72,6 +72,6 @@ if nargout > 2
     %disp(size(dd_rho))
 
     H = -[dd_delta2, dd_delta2_delta3, dd_delta2_rho'; ...
-        dd_delta2_delta3, dd_delta3, dd_delta3_rho'; ...
-        dd_delta2_rho, dd_delta3_rho, dd_rho];
+          dd_delta2_delta3, dd_delta3, dd_delta3_rho'; ...
+          dd_delta2_rho, dd_delta3_rho, dd_rho];
 end

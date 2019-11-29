@@ -7,7 +7,7 @@ if nargin == 5
         'MaxIterations', 400, 'OptimalityTolerance', 1e-10, ...
         'SpecifyObjectiveGradient', true, 'StepTolerance', 1e-10, ...
         'FunctionTolerance', 1e-10, 'Display', 'iter', ...
-        'HessianFcn', 'objective', 'CheckGradients', false);
+        'HessianFcn', 'objective', 'CheckGradients', true);
 end 
 
 tic
@@ -19,7 +19,11 @@ ub = [inf(length(starting_value)-1, 1); ones(1, 1)*1];
 disp('The estimation takes')
 toc
 
-biv_cov = invChol_mex(H);
+try
+    biv_cov = invChol_mex(H);
+catch
+    biv_cov = inv(H);
+end
 biv_se = sqrt(diag(biv_cov));
 
 end
