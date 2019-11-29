@@ -25,6 +25,6 @@ catch
     biv_cov = inv(H);
 end
 biv_se = sqrt(diag(biv_cov));
-robust_biv_se = cal_robust_biv_se(starting_value, y2, y3, z2, z3, biv_cov);
+robust_biv_se = cal_robust_biv_se(starting_value, y1, y2, z1, z2, biv_cov);
 
 end
