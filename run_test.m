@@ -70,6 +70,11 @@ greene_se = [0.05814; 0.01604; 0.000802; 0.04628; 0.01825; 0.003575; ...
 max_est_diff = max(abs((greene_est - delta)./greene_est));
 max_se_diff = max(abs((greene_se - biv_se)./greene_se));
 
+disp("Estimates")
+disp([greene_est, delta])
+disp("Standard errors")
+disp([greene_se, biv_se, robust_biv_se])
+
 if max_est_diff < 1e-3
     disp('The bivariate probit MLE function works!!')
 else
